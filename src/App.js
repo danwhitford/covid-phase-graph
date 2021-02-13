@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Select from 'react-select'
 import PhaseChart from './components/PhaseChart'
+import './App.css'
 
 const axesOptions = [
   {
@@ -38,40 +39,45 @@ function App() {
         axesDims={axesDims}
       />
 
+      <div className='SelectContainer'>
+        <label>
+          X axis dimension
+      <Select
+            value={axesDims.x}
+            options={axesOptions}
+            onChange={e => {
+              setAxesDims({
+                ...axesDims,
+                x: e,
+              })
+            }}
+          />
+        </label>
+      </div>
+
+      <div className='SelectContainer'>
+        <label>
+          Y axis dimension
+      <Select
+            value={axesDims.y}
+            options={axesOptions}
+            onChange={e => {
+              setAxesDims({
+                ...axesDims,
+                y: e,
+              })
+            }}
+          />
+        </label>
+      </div>
+
       <p>Colours represent time with earlier entries being lighter and later entries darker</p>
       <div style={{
         height: '30px',
         width: '300px',
         backgroundImage: 'linear-gradient(to right, #fafa6e, #2A4858)',
       }}></div>
-
-      <label>
-        X axis dimension
-      <Select
-        value={axesOptions.x}
-        options={axesOptions}
-        onChange={e => {
-          setAxesDims({
-            ...axesDims,
-            x: e,
-          })
-        }}
-      />
-      </label>
-
-      <label>
-        Y axis dimension
-      <Select
-        value={axesOptions.y}
-        options={axesOptions}
-        onChange={e => {
-          setAxesDims({
-            ...axesDims,
-            y: e,
-          })
-        }}
-      />
-      </label>
+      <p>Data is taken from the <a href='https://coronavirus.data.gov.uk/'>Gov.Uk COVID dashboard</a>, via <a href='https://coronavirus.data.gov.uk/details/developers-guide'>the API</a></p>
     </div>
   );
 }

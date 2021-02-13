@@ -4,7 +4,13 @@ import fetch from "cross-fetch";
 
 const base = "https://api.coronavirus.data.gov.uk/v1/data";
 
+const cache = new Map()
+
 export const getData = (xAxisDim, yAxisDim) => {
+    if (cache.has(`${xAxisDim}:${yAxisDim}`)) {
+        return cache.get(`${xAxisDim}:${yAxisDim}`)
+    }
+
   const filterString = "filters=areaType=overview";
   const structure = {
     areaName: "areaName",
@@ -18,5 +24,8 @@ export const getData = (xAxisDim, yAxisDim) => {
 
   console.log("url:", url);
 
-  return fetch(url).then((res) => res.json());
+  return fetch(url).then((res) => res.json()).then(j => {
+      cache.set(`${xAxisDim}:${yAxisDim}`, j)
+      return j
+  });
 };
