@@ -1,58 +1,77 @@
-import logo from "./logo.svg";
-import Chart from "chart.js";
-import { useEffect } from "react";
-import chroma from 'chroma-js'
+import { useState } from 'react';
+import Select from 'react-select'
+import PhaseChart from './components/PhaseChart'
 
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-function getData(size) {
-  const a = new Array(size).fill().map((e, i) => {
-    return {
-      x: getRandomArbitrary(i - 2, i + 2),
-      y: getRandomArbitrary(i - 2, i + 2),
-    };
-  })
-  return [...a, ...a.reverse().map(e => {return {x: e.x-5, y: e.y+5}})]
-}
-
+const axesOptions = [
+  {
+    value: 'newAdmissions',
+    label: 'New admissions'
+  },
+  {
+    value: 'covidOccupiedMVBeds',
+    label: 'COVID-19 occupied beds with mechanical ventilators'
+  },
+  {
+    value: 'newCasesByPublishDate',
+    label: 'New cases by publication date'
+  },
+  {
+    value: 'newCasesBySpecimenDate',
+    label: 'New cases by specimen date'
+  },
+  {
+    value: 'newDeaths28DaysByPublishDate',
+    label: 'New deaths within 28 days of a positive test'
+  },
+  {
+    value: 'newDeaths28DaysByDeathDate',
+    label: 'New deaths within 28 days of a positive test by death date (very spiky)'
+  }
+]
 
 function App() {
-  useEffect(() => {
-    const ctx = document.getElementById("myChart");
-    const scatterChart = new Chart(ctx, {
-      type: "scatter",
-      data: {
-        datasets: [
-          {
-            label: "Scatter Dataset",
-            data: getData(50),
-          
-            backgroundColor: (context) => {
-              return chroma
-                .scale(['#fafa6e','#2A4858'])                
-                .colors(context.dataset.data.length)[context.dataIndex]
-            },
-          },
-        ],
-      },
-      options: {
-        scales: {
-          xAxes: [
-            {
-              type: "linear",
-              position: "bottom",
-            },
-          ],
-        },
-      },
-    });
-  });
+  const [axesDims, setAxesDims] = useState({ x: axesOptions[0], y: axesOptions[1] })
 
   return (
     <div className="App">
-      <canvas id="myChart" width="400" height="400"></canvas>
+      <PhaseChart
+        axesDims={axesDims}
+      />
+
+      <p>Colours represent time with earlier entries being lighter and later entries darker</p>
+      <div style={{
+        height: '30px',
+        width: '300px',
+        backgroundImage: 'linear-gradient(to right, #fafa6e, #2A4858)',
+      }}></div>
+
+      <label>
+        X axis dimension
+      <Select
+        value={axesOptions.x}
+        options={axesOptions}
+        onChange={e => {
+          setAxesDims({
+            ...axesDims,
+            x: e,
+          })
+        }}
+      />
+      </label>
+
+      <label>
+        Y axis dimension
+      <Select
+        value={axesOptions.y}
+        options={axesOptions}
+        onChange={e => {
+          setAxesDims({
+            ...axesDims,
+            y: e,
+          })
+        }}
+      />
+      </label>
     </div>
   );
 }
