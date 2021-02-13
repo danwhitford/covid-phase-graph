@@ -75,7 +75,7 @@ function App() {
       <div style={{
         height: '30px',
         width: '300px',
-        backgroundImage: 'linear-gradient(to right, #fafa6e, #2A4858)',
+        backgroundImage: 'linear-gradient(to right, #fee8c8, #e34a33)',
       }}></div>
       <p>Data is taken from the <a href='https://coronavirus.data.gov.uk/'>Gov.Uk COVID dashboard</a>, via <a href='https://coronavirus.data.gov.uk/details/developers-guide'>the API</a></p>
     </div>

@@ -29,18 +29,6 @@ function PhaseChart({axesDims}) {
     const ctx = document.getElementById("myChart");
     const scatterChart = new Chart(ctx, {
       type: "scatter",
-      // data: {
-      //   datasets: [
-      //     {            
-      //       data: chartData,
-      //       backgroundColor: (context) => {
-      //         return chroma
-      //           .scale(["#fafa6e", "#2A4858"])
-      //           .colors(context.dataset.data.length)[context.dataIndex];
-      //       },
-      //     },
-      //   ],
-      // },
       options: {
         scales: {
           xAxes: [
@@ -92,7 +80,8 @@ function PhaseChart({axesDims}) {
           data: chartData,
           backgroundColor: (context) => {
             return chroma
-              .scale(["#fafa6e", "#2A4858"])
+              .scale(["#fee8c8", "#e34a33"])
+              .mode('lab')
               .colors(context.dataset.data.length)[context.dataIndex];
           },
         },
